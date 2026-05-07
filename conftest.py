@@ -1,6 +1,15 @@
 import pytest
 from selenium import webdriver
 
+@pytest.fixture(params=["Chrome", "Firefox", "Safari"])
+def browser(request):
+    if request.param == "Chrome":
+        return request.getfixturevalue("chrome")
+    if request.param == "Firefox":
+        return request.getfixturevalue("firefox")
+    if request.param == "Safari":
+        return request.getfixturevalue("safari")
+
 
 
 @pytest.fixture(params=[(1920, 1080), (1280, 720)])
@@ -18,7 +27,6 @@ def mobile_browser(request):
     driver.set_window_size(width, height)
     yield driver
     driver.quit()
-
 
 @pytest.fixture(params=[(1920, 1080), (1280, 720), (480, 800), (300, 500)])
 def is_mobile(request):

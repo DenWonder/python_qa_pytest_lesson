@@ -1,0 +1,6 @@
+[tool.pytest.ini_options]
+addopts="-l -v --durations=10"
+markers=[
+    "desktop: Tests only for desktop platforms",
+    "mobile: tests which actuall for mobile platforms only"
+]
