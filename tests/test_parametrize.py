@@ -2,6 +2,7 @@
 Переопределите параметр с помощью indirect параметризации на уровне теста
 """
 import random
+from dataclasses import dataclass
 from time import sleep
 
 import pytest
@@ -44,3 +45,26 @@ def test_failed_2():
         assert user1 == user2
     except AssertionError:
         pytest.xfail(reason='Мы знаем, что этот тест упадёт')
+
+
+@dataclass
+class User:
+    id: int
+    name: str
+    age: int
+    description: str
+
+    def __repr__(self):
+        return f'{self.name} (id={self.id})'
+
+
+
+user1 = User(id=1, name='Mario', age=32, description="something"*10)
+user2 = User(id=2, name='Wario', age=23, description="else"*10)
+
+def show_user(user):
+    return f'{user.name} (id={user.id})'
+
+@pytest.mark.parametrize('user', [user1, user2], ids=repr)
+def test_show_user(user):
+    pass

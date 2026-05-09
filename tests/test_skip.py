@@ -80,3 +80,10 @@ def test_operation(operation, user_role):
     assert operation in ["create", "read", "update", "delete"]
     assert user_role in ["reader", "editor", "admin"]
 
+@pytest.mark.parametrize("browser",
+                         [pytest.param("chrome", id="Chrome"),
+                          pytest.param("firefox", marks=[pytest.mark.slow], id="Firefox"),
+                          pytest.param("safari", marks=[pytest.mark.xfail(reason='TASK-1234 safari problem')], id="Safari")])
+def test_browser(browser):
+    time.sleep(1)
+    pass
