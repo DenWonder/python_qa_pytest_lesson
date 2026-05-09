@@ -56,3 +56,27 @@ def is_android():
 @pytest.fixture()
 def is_ios():
     return platform.system() == 'iOS'
+
+def is_role_can_perform_operation(operation, role):
+    if role == 'reader':
+        if operation == 'read':
+            return True
+        return False
+    elif role == 'editor':
+        if operation == 'read' or operation == 'update':
+            return True
+        return False
+    elif role == 'admin':
+        return True
+    else:
+        return False
+
+
+@pytest.mark.parametrize("operation", ["create", "read", "update", "delete"])
+@pytest.mark.parametrize("user_role", ["reader", "editor", "admin"])
+def test_operation(operation, user_role):
+    if not is_role_can_perform_operation(operation, user_role):
+        pytest.skip(f"skipped, cause operation {operation} is not available for {user_role}")
+    assert operation in ["create", "read", "update", "delete"]
+    assert user_role in ["reader", "editor", "admin"]
+
